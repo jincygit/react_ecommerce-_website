@@ -11,7 +11,14 @@
             "title": "Gel Eyeliner",
             "price": 100 ,
             "imageUrl": "https://resources.commerceup.io/?key=https://prod-admin-images.s3.ap-south-1.amazonaws.com/JgyWjz9rvHrN0G1LUw57/product/IGE001-1.png&width=800&resourceKey=JgyWjz9rvHrN0G1LUw57"
+        },
+        { 
+            "id": 3, 
+            "title": "Compact Powder",
+            "price": 300 ,
+            "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTFpqO5oiiP1UPCoPE_yx7DchBpKRdE2F9Dw&usqp=CAU"
         }
+        
      
     ],
     "cart": [
