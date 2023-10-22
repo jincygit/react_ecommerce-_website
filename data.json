@@ -1,0 +1,23 @@
+{
+    "products": [
+        { 
+            "id": 1, 
+            "title": "Liquid Lipstick",
+            "price": 200 ,
+            "imageUrl": "https://rukminim2.flixcart.com/image/800/800/cms-rpd-images/3efbc52eccd349a3bc2f181a769e7cc9_17e333255fa_LSKFVDSD9FZHGZNZ_BannerMediaWidget_2.jpg.png?q=90"
+        },
+        { 
+            "id": 2, 
+            "title": "Gel Eyeliner",
+            "price": 100 ,
+            "imageUrl": "https://resources.commerceup.io/?key=https://prod-admin-images.s3.ap-south-1.amazonaws.com/JgyWjz9rvHrN0G1LUw57/product/IGE001-1.png&width=800&resourceKey=JgyWjz9rvHrN0G1LUw57"
+        }
+     
+    ],
+    "cart": [
+      
+    ],
+    "profile": {
+      "name": "typicode"
+    }
+  }
