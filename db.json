@@ -3,28 +3,32 @@
         { 
             "id": 1, 
             "title": "Liquid Lipstick",
-            "price": 200 ,
+            "price": 200,
+            "rating": 3,
             "imageUrl": "https://rukminim2.flixcart.com/image/800/800/cms-rpd-images/3efbc52eccd349a3bc2f181a769e7cc9_17e333255fa_LSKFVDSD9FZHGZNZ_BannerMediaWidget_2.jpg.png?q=90",
             "details": "It's so highly pigmented that you only need one swipe for opaque colour and the tip of the applicator is pointed so that you can get a really crisp lip line, no need for a pencil or lip brush."
         },
         { 
             "id": 2, 
             "title": "Gel Eyeliner",
-            "price": 100 ,
+            "price": 100,
+            "rating": 4,
             "imageUrl": "https://resources.commerceup.io/?key=https://prod-admin-images.s3.ap-south-1.amazonaws.com/JgyWjz9rvHrN0G1LUw57/product/IGE001-1.png&width=800&resourceKey=JgyWjz9rvHrN0G1LUw57",
             "details": "Gel eyeliner can be used to simply line your upper lash line and waterline, or it can be used to create a quick smokey eye. It can even be used to create sharp winged eyeliner with the help of an angled brush."
         },
         { 
             "id": 3, 
             "title": "Compact Powder",
-            "price": 300 ,
+            "price": 300,
+            "rating": 1,
             "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTFpqO5oiiP1UPCoPE_yx7DchBpKRdE2F9Dw&usqp=CAU",
             "details": "Compact powder is one of the most important makeup products to add that perfect touch up on the go. It helps you to get rid of excess oil and sweat on your face."
         },
         { 
             "id": 4, 
             "title": "Eyeshadow",
-            "price": 500 ,
+            "price": 500,
+            "rating": 2,
             "imageUrl": "https://rdcosmetics.in/cdn/shop/products/3.png?v=1673850435",
             "details": "Most medium skins will look great with warm tones of bronze, coppers, golds, and shades of honey. Richer colors like blues will look amazing."
         }
