@@ -4,21 +4,20 @@ import { configureStore } from '@reduxjs/toolkit';
 import storage from 'redux-persist/lib/storage'
 // import { persistReducer } from 'redux-persist'
 import { persistStore, persistReducer } from "redux-persist";
-import { apiSlice } from '../persistent/apiSlice'
-
 
 // import counter reducer function here+
 
 const { productReducer } = require("../reducers/productReducer");
-const { cartReducer } = require("../reducers/cartReducer");
+//const { cartReducer } = require("../reducers/cartReducer");
+const { CartSlice } = require("../persistent/CartSlice");
+const { addProducts } = require("../persistent/addProducts");
 
 
 
 // combine the reducer functions here
 const reducers = combineReducers({
-    products:productReducer,
-    cart :cartReducer,
-    //[apiSlice.reducerPath]: apiSlice.reducer,
+    products:addProducts,
+    cart :CartSlice,
 })
 
 

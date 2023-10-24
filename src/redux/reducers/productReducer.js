@@ -1,20 +1,19 @@
 import {
-  ADD_PRODUCT,
+  ADD_PRODUCTS,
   REMOVE_PRODUCT,
 } from "../actions/productActions";
 
-const INITIAL_STATE = { isRunning: false, elapsedTime: 0 };
+const INITIAL_STATE = {
+  products: [], // Initialize the cart as an empty array
+};
 
-// title: "",
-// price: "",
-// rating: "",
-// link: "",
-// }
+
 
 export const productReducer = (state = INITIAL_STATE, action) => {
+  //console.log("action...", action)
   switch (action.type) {
-    case ADD_PRODUCT:
-      return { ...state, isRunning: true };
+    case ADD_PRODUCTS:
+      return action.payload;
     case REMOVE_PRODUCT:
       return { ...state, isRunning: false };
 
