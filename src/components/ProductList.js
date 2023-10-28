@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from 'axios';
 import styles from '../styles/home.module.css';
 import { fetchProducts } from '../api/index';
-import {addProducts} from "../redux/actions/productActions";
+import {addProducts,addSingleProduct} from "../redux/actions/productActions";
 import {addCart,changeCartCount} from "../redux/actions/cartActions";
 // import {addProducts} from "../redux/persistent/addProducts";
 // import {addCart} from "../redux/persistent/CartSlice";
@@ -15,6 +15,7 @@ import { Toaster,toast } from 'react-hot-toast';
 import { firestore as db } from '../firebase';
 
 import { getFirestore, collection, getDocs, onSnapshot, addDoc, updateDoc, doc, deleteDoc, query, where } from 'firebase/firestore';
+import { calculateNewValue } from '@testing-library/user-event/dist/utils';
 
 
 
@@ -22,7 +23,7 @@ export const ProductList = ({ }) => {
 
     const dispatch = useDispatch();
     const wholeState = useSelector((state) => state);
-    const {products,cart} = useSelector((state) => state);
+    let {products,cart} = useSelector((state) => state);
     console.log("wproduct state..",wholeState);
     //console.log("wproduct products..",products);
     // const products = [];
@@ -59,19 +60,17 @@ export const ProductList = ({ }) => {
 
             //firebase code starts
             //fetching all data without condition from firebase
-            const collectionRef = collection(db, 'products'); 
-            const queryConditions = query(
-                collectionRef,
-                where('price', '>', 0),
-            );
-            onSnapshot(queryConditions, (querySnapshot) => {
+            const collectionRef = collection(db, 'products');
+            onSnapshot(collectionRef, (querySnapshot) => {
+                console.log("..products",typeof products);
                 const firebaseProducts = [];
                 querySnapshot.forEach((doc) => {
-                    firebaseProducts.push({ id: doc.id, ...doc.data() });
-                
+                    console.log("addddd");
+                    let newdata = { id: doc.id, ...doc.data() };
+                    //adding firebase db data into existing api result data
+                    dispatch(addSingleProduct(newdata));
+                    //firebaseProducts.push({ id: doc.id, ...doc.data() });
                 });
-                //this.setState({ products, loading: false });
-                console.log("..firebaseProducts", firebaseProducts);
             });
             
             //firebase code ends
@@ -184,7 +183,7 @@ export const ProductList = ({ }) => {
                                         <thead></thead>
                                         <tbody>
                                             {products.products.map((product) => (
-                                                <ProductItem product={product} key={product.id}/>
+                                                    <ProductItem product={product} key={product.id}/>
                                             ))}
                                             
                                         </tbody>

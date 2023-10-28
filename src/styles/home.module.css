@@ -376,6 +376,10 @@ select {
   margin: 0px 0px 0px 0px;
   font-size: 12px;
 }
+.ratingLabel {
+  color: #1da3f7;
+}
+
 .productimage{
     height: 103px;
     width: 193px;
@@ -393,6 +397,19 @@ select {
   left: 111.5px;
   top: 0px;
   background: #0a58ca;
+  border-radius: 3px;
+  color: #fff;
+  font-size: 16px;
+  border: none;
+  border-radius: 20px;
+  margin: 0px 10px 0px 10px;
+}
+.viewDetailsBtn {
+  width: 112px;
+  height: 42px;
+  left: 111.5px;
+  top: 0px;
+  background: #ffc107;
   border-radius: 3px;
   color: #fff;
   font-size: 16px;

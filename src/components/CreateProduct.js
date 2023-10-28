@@ -1,12 +1,16 @@
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from "react-redux";
 import styles from '../styles/home.module.css';
 import { Toaster,toast } from 'react-hot-toast';
 //get firebase instance
 import { firestore as db } from '../firebase';
 import { getFirestore, collection, getDocs, onSnapshot, addDoc, updateDoc, doc, deleteDoc, query, where } from 'firebase/firestore';
 
+import {addSingleProduct} from "../redux/actions/productActions";
 
 export const CreateProduct = () => {
+    const dispatch = useDispatch();
+    let {products,cart} = useSelector((state) => state);
     //add button loading
     const [addingTodo, setAddingTodo] = useState(false);
     //page loader values
@@ -43,14 +47,15 @@ export const CreateProduct = () => {
               title: productTitle,
               rating: rating
             };
-
+            //add new product in firebase db
             try {
                 const productsCollection = collection(db, 'products');
                 // 'product' should be an object containing the product data
                 const newProductRef = await addDoc(productsCollection, productData);
                 console.log('Product added with ID: ', newProductRef);
+                //dispatch(addSingleProduct(productData));
                 setAddingTodo(false);
-                //toast msg
+                //success toast msg
                 toast.success("Product added successfully", {
                   icon: '✅',
                   style: {
@@ -69,7 +74,7 @@ export const CreateProduct = () => {
                 setAddingTodo(false);
                 console.error('Error adding product: ', error);
 
-                //toast msg
+                //error toast msg
                 toast.error(error, {
                   icon: '❌', // You can customize the icon
                   style: {

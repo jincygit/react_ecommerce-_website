@@ -5,6 +5,7 @@ import styles from '../styles/home.module.css';
 import {updateProducts,removeProduct} from "../redux/actions/productActions";
 import {addCart,changeCartCount} from "../redux/actions/cartActions";
 import { Toaster,toast } from 'react-hot-toast';
+import { Link } from 'react-router-dom';
 
 export const ProductItem = ({product }) => {
 
@@ -247,6 +248,16 @@ export const ProductItem = ({product }) => {
 
                 </td>
             }
+            <td>
+                <Link to={`/details/${product.id}`}>
+                    <button 
+                        className={styles.viewDetailsBtn} 
+                        // onClick={()=>handleAddToCart(product)}
+                        >
+                        View Details
+                    </button>
+                </Link>
+            </td>
             {!editStatus &&
                 <td>
                     <button 
