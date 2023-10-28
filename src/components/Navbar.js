@@ -28,7 +28,7 @@ const Navbar = () => {
                     className={styles.navHomeDp}
                   />
                 
-                <span>Products</span>
+                <span>Home</span>
               </div>
           </Link>
           

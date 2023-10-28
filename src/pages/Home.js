@@ -1,140 +1,91 @@
+//---------------------------Home page---------------
 import { useEffect, useState } from 'react';
-// import CreateTodo from '../components/CreateTodo';
-// import Loader from '../components/Loader';
-// import Todo from '../components/Todo';
-// import { getTodoList,addApiUrl,deleteApiUrl,editApiUrl } from '../api/index';
+import { useDispatch, useSelector } from "react-redux";
 import styles from '../styles/home.module.css';
-;
+import { fetchProducts } from '../api/index';
+import {addProducts} from "../redux/actions/productActions";
+import { Link } from 'react-router-dom';
 
 
-export const Home = () => {
-  //new index for todo item
-  const [todoIndex, setTodoIndex] = useState(201);
-  //todo list
-  const [todos, setTodos] = useState([]);
-  //add button loading
-  const [addingTodo, setAddingTodo] = useState(false);
-  //page loader values
-  const [loadingStatus, setLoadingStatus] = useState(true);
-  //console.log("todos...", todos);
-  const [rating, setRating] = useState(0);
+export const Home = ({ }) => {
 
-  //handleRatingChange
-  const handleRatingChange = (newRating) => {
-    setRating(newRating);
-    //console.log("newRating  ",newRating)
-  };
+    const dispatch = useDispatch();
+    //const wholeState = useSelector((state) => state);
+    //console.log("wproduct state..",wholeState);
+
+    const [loading, setLoading] = useState(true);
+
+
+
+
+
+    const fetchProductList = async () => {
+        try {
+            //get products from the API
+            const response = await fetchProducts();
+            //check whether api response and set state
+            if (response.success) {
+                dispatch(addProducts(response.data));
+            }
+            setLoading(false);
+        } catch (error) {
+            console.log("error ", error);
+            setLoading(false); 
+        }
+    };
+
+    
+    useEffect(() => {
+        // Call the fetchProductList function for setting product list
+        fetchProductList(); 
+    }, []);       
   
-  
-  
-  useEffect(() => {
-    // Call the fetchTodoList function for setting todo list
-    //fetchTodoList(); 
-  }, []);
-
-  //page loader for initial loading
-  // if (loadingStatus) {
-  //   return <Loader />;
-  // }
 
   return (
-    
     <div className={styles.home}>
-      <div className={styles.postsList}>
-        
-        {/* banner section starts */}
-            <div className={styles.bannerdiv}>
-              <img className={styles.bannerimg}
-                src="https://www.banglashoppers.com/media/wysiwyg/slidershow/bs-home-01.jpg"/>
-            </div>   
-        {/* banner section ends */}
-        {/* create product section starts */}
+        <div className={styles.postsList}>
+            {/* banner section starts */}
+                <div className={styles.bannerdiv}>
+                <img className={styles.bannerimg}
+                    src="https://www.banglashoppers.com/media/wysiwyg/slidershow/bs-home-01.jpg"/>
+                </div>   
+            {/* banner section ends */}
             <div>
-              <div className={styles.createPost}>
-                  <div className={styles.createpost_header+ " "+styles.createPostDiv}>
-                  Add List
-                  </div>
-                  {/* Product Name */}
-                    <input type="text" className={styles.createPostInput} name="" value=""
-                      placeholder='Enter Product Name'/>
-                  
-                  {/* Product Price */}
-                    <input type="number" className={styles.createPostInput} name="" value=""
-                      placeholder='Enter Product Price'/>
-                  {/* Product rating */}
-
-                    <div className={styles.rating}>
-                    <p>Add Product Rating by clicking stars</p>
-                      <input type="radio" id="star5" name="rating" value="5" onClick={() => handleRatingChange(5)}/>
-                      <label for="star5"></label>
-                      <input type="radio" id="star4" name="rating" value="4" onClick={() => handleRatingChange(4)}/>
-                      <label for="star4"></label>
-                      <input type="radio" id="star3" name="rating" value="3" onClick={() => handleRatingChange(3)}/>
-                      <label for="star3"></label>
-                      <input type="radio" id="star2" name="rating" value="2" onClick={() => handleRatingChange(2)}/>
-                      <label for="star2"></label>
-                      <input type="radio" id="star1" name="rating" value="1" onClick={() => handleRatingChange(1)}/>
-                      <label for="star1"></label>
+                            
+                    {/* product list */}
+                    <div className={styles.postWrapper}>
+                        <div className={styles.postHeader}>
+                            <div >
+                                <center>
+                                    <Link to="/products">
+                                        <button 
+                                            className={styles.gotoIcon}
+                                            // onClick={() => {setDeletingTodo(true);handleDeleteTodo(todo.id);}}
+                                            >
+                                            <img 
+                                            className={styles.gotoIconImage}
+                                            src="https://cdn3d.iconscout.com/3d/premium/thumb/product-5806313-4863042.png"
+                                            alt="delete-pic"
+                                            />
+                                        </button>
+                                
+                                        <p className={styles.gotoP}>GO TO PRODUCT PAGE</p>
+                                    </Link>
+                                </center>
+                            </div>         
+  
+                        </div>
                     </div>
-
-                  {/* Product description */}
-                    <textarea
-                      placeholder='Enter Product Details'
-                      className={styles.addPost+" "+ styles.createPostTextarea}
-                      // value={titleInputValue}
-                      // onChange={(e) => setTitleInputValue(e.target.value)}
-                      required
-                    />
-
-
-                  
-                  {/* Add button starts */}
-                    <div className={styles.createPostDiv}>
-                      {/* if input is not present, then restrict button click  */}
-                      <button
-                        className={styles.addPostBtn}
-                        // onClick={titleInputValue===""?null:handleAddTodo}
-                        disabled={addingTodo}
-                      >
-                        {/* adding button text changes on loading period */}
-                        {addingTodo ? 'Adding list...' : 'Add list'}
-                      </button>
-                    </div>
-                  {/* Add button ends */}
-              </div>
+                
             </div>
-        {/* create product section ends */}
-        <div  className={styles.createpost_header + ' ' + styles.todolistheader}>Todo List</div>
-        {/* {todos.map((todo) => (
-          <Todo 
-            todo = {todo} 
-            key = {todo.id} 
-            todos = {todos} 
-            handleEditTodo = {handleEditTodo}  
-            handleDeleteTodo = {handleDeleteTodo}   
-            deletingTodo = {deletingTodo} 
-            setDeletingTodo = {setDeletingTodo}  
-            updatingTodo = {updatingTodo} 
-            setUpdatingTodo = {setUpdatingTodo}     
-          />
-        ))} */}
-        
-      </div>
+        </div>
     </div>
   );
 };
 
-
-
-
-// import { Link } from "react-router-dom";
-
-// export const Home = () => {
-//   return (
-//     <div className="home">
-//       <h1>bbb</h1>
-//       <Link to="/timer">Timer</Link>
-//       <Link to="/counter">Counter</Link>
-//     </div>
-//   );
+// prop validation
+// ProductList.propTypes = {
+//   todo: PropTypes.object.isRequired,
 // };
+
+export default Home;

@@ -4,14 +4,15 @@ import { configureStore } from '@reduxjs/toolkit';
 import storage from 'redux-persist/lib/storage'
 // import { persistReducer } from 'redux-persist'
 import { persistStore, persistReducer } from "redux-persist";
-import { apiSlice } from '../persistent/apiSlice'
+import { apiSlice } from '../persistent/apiSlice';
+import { productReducer } from '../reducers/productReducer';
+import { cartReducer } from '../reducers/cartReducer';
 
 
 // import counter reducer function here+
 
-const { productReducer } = require("../reducers/productReducer");
-const { cartReducer } = require("../reducers/cartReducer");
-
+// const { productReducer } = require("../reducers/productReducer");
+// const { cartReducer } = require("../reducers/cartReducer");
 
 
 // combine the reducer functions here

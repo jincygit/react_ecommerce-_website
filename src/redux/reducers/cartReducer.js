@@ -53,7 +53,7 @@ export const cartReducer = (state = INITIAL_STATE, action) => {
             return state;
 
         case CHANGE_CART_COUNT:
-            console.log("COUNT C ...", action);
+            //console.log("COUNT C ...", action);
             //getting Product index
             const productIndex = state.cart.findIndex((m) => m.id === action.payload.id);
             if (productIndex !== -1) {
