@@ -450,3 +450,6 @@ select {
   width: 300px;
   height: 200px;
 }
+.errorMsg{
+  color: red;
+}

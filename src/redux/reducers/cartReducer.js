@@ -58,6 +58,7 @@ export const cartReducer = (state = INITIAL_STATE, action) => {
             const productIndex = state.cart.findIndex((m) => m.id === action.payload.id);
             if (productIndex !== -1) {
                 let totalCartItemsIncrement = state.cartCount;
+                let currentTotalCartItems = state.cartCount;
                 if(action.changeType==="plus"){
                   //on incrementing cart count
                   totalCartItemsIncrement++;
@@ -66,6 +67,7 @@ export const cartReducer = (state = INITIAL_STATE, action) => {
                 else{
                   //on decrementing cart count
                   totalCartItemsIncrement--;
+                  currentTotalCartItems--;
                   action.payload.qty--;
                 }
                 
@@ -73,10 +75,17 @@ export const cartReducer = (state = INITIAL_STATE, action) => {
                 const updatedProduct = action.payload;
                 let updatedList = [...state.cart];
                 if(action.payload.qty===0){
-                  console.log("delete..",action.payload.qty);
+                  console.log("delete..",action.payload.qty,"  changeType  ",action.changeType);
                   updatedList.splice(productIndex, 1);
+                }
+                else if(action.payload.qty===NaN){
+                  currentTotalCartItems++;
+                  //totalCartItemsIncrement = currentTotalCartItems;
+                  console.log("nondelete NaN..",action.payload.qty,"  changeType  ",action.changeType);
+                  updatedProduct.qty = 1
                 }else{
-                  console.log("nondelete..",action.payload.qty);
+                  
+                  console.log("nondelete..",action.payload.qty,"  changeType  ",action.changeType);
                   updatedList[productIndex] = updatedProduct;
                 }
                 

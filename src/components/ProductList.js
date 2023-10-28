@@ -11,6 +11,11 @@ import {addCart,changeCartCount} from "../redux/actions/cartActions";
 // import {addCart} from "../redux/persistent/CartSlice";
 import ProductItem from './ProductItem';
 import { Toaster,toast } from 'react-hot-toast';
+//get firebase instance
+import { firestore as db } from '../firebase';
+
+import { getFirestore, collection, getDocs, onSnapshot, addDoc, updateDoc, doc, deleteDoc, query, where } from 'firebase/firestore';
+
 
 
 export const ProductList = ({ }) => {
@@ -51,6 +56,25 @@ export const ProductList = ({ }) => {
                 dispatch(addProducts(response.data));
             }
             setLoading(false);
+
+            //firebase code starts
+            //fetching all data without condition from firebase
+            const collectionRef = collection(db, 'products'); 
+            const queryConditions = query(
+                collectionRef,
+                where('price', '>', 0),
+            );
+            onSnapshot(queryConditions, (querySnapshot) => {
+                const firebaseProducts = [];
+                querySnapshot.forEach((doc) => {
+                    firebaseProducts.push({ id: doc.id, ...doc.data() });
+                
+                });
+                //this.setState({ products, loading: false });
+                console.log("..firebaseProducts", firebaseProducts);
+            });
+            
+            //firebase code ends
             //setLoadingStatus(false);
         } catch (error) {
             console.log("error ", error);
