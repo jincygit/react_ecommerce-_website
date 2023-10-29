@@ -470,3 +470,11 @@ select {
 .errorMsg{
   color: red;
 }
+.sortButton{
+  height: 28px;
+  width: 9px;
+  border-radius: 49px;
+  background-color: red;
+  margin: -34px 0px 0px 124px;
+}
+

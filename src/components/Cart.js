@@ -150,8 +150,6 @@ export const Cart = ({ }) => {
                                             <th><span>Price</span></th>
                                             <th>Qty</th>
                                             <th>TotalPrice</th>
-                                            <th>Edit</th>
-                                            
                                             <th>Delete</th>
                                         </tr>
                                     </thead>
@@ -194,45 +192,7 @@ export const Cart = ({ }) => {
                                                     </span>
                                                 </td>
                                                 
-                                                <td>
-                                                        {/* show edit button and update button  based on editStatus */}
-                                                        {!editStatus 
-                                                        ? <button 
-                                                            className={styles.actionicon} 
-                                                            onClick={(e) => setEditStatus(true)}>
-                                                            <img 
-                                                                className={styles.actioniconimage}
-                                                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFx5EmaIWUIF5VpUW_y24CdKV0s3AB16_VJw&usqp=CAU"
-                                                                alt="edit-pic"
-                                                                
-                                                            />
-                                                            </button>
-                                                        :     editStatus
-                                                            ? <button 
-                                                                    className={styles.actionicon} 
-                                                                    // onClick={() => {setEditStatus(false);handleTodoUpdate(todo.id);}}
-                                                                    >
-                                                                    <img 
-                                                                    className={styles.actioniconimage}
-                                                                    src="https://previews.123rf.com/images/gguy/gguy1808/gguy180800007/106507629-update-in-progress-loading-bar.jpg"
-                                                                    alt="update-pic" 
-                                                                    
-                                                                    />
-                                                                </button>
-                                                                : <button 
-                                                                    className={styles.actionicon} 
-                                                                    // onClick={() => {setEditStatus(false);handleTodoUpdate(todo.id);}}
-                                                                    >
-                                                                    <img 
-                                                                    className={styles.actioniconimage}
-                                                                    src="https://www.pngall.com/wp-content/uploads/4/Update-Button-PNG-Free-Image.png"
-                                                                    alt="update-pic" 
-                                                                    
-                                                                    />
-                                                                </button>
-                                                        
-                                                        } 
-                                                </td>
+                                               
                                                 <td>
                                                     {/* show delete button or deleting button  based on deletingTodo value */}
                                                     {!isDeleting

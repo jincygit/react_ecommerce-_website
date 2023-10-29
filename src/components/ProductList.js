@@ -24,7 +24,12 @@ export const ProductList = ({ }) => {
     const dispatch = useDispatch();
     const wholeState = useSelector((state) => state);
     let {products,cart} = useSelector((state) => state);
+    //const productsList = products;
+    const [productsList, setProductsList] = useState(products.products);
+    const [sortingStatus, setSortingStatus] = useState(false);
     console.log("wproduct state..",wholeState);
+
+    
     //console.log("wproduct products..",products);
     // const products = [];
     // const cart = [];
@@ -80,6 +85,20 @@ export const ProductList = ({ }) => {
             setLoading(false); 
         }
     };
+
+    const handlePriceSorting = async (sortingStatus) => {
+        if(sortingStatus){
+            const sortedProducts = [...products.products]; 
+            sortedProducts.sort((a, b) => a.price - b.price);
+            console.log("sort wproduct state..",sortedProducts);
+            //productsList
+            setProductsList(sortedProducts);
+        }else{
+            setSortingStatus(false);
+            setProductsList(products.products);
+            
+        }
+    }
 
     const handleEdit = async () => {
         try {
@@ -161,6 +180,21 @@ export const ProductList = ({ }) => {
                         </div>   
                     {/* banner section ends */}
                     <div>
+                        <button 
+                        className={styles.viewDetailsBtn} 
+                        onClick={()=>{setSortingStatus(true);handlePriceSorting(true)}}
+                        >
+                        Sort By price
+                        </button>
+                        {sortingStatus&& 
+                            <button className={styles.sortButton} 
+                                onClick={()=>{handlePriceSorting(false);}}>
+                                <img src="https://www.veryicon.com/download/png/miscellaneous/kqt/close-116?s=512"/>
+                            </button>
+                        }
+                       
+                    </div>
+                    <div>
                         {loading
                             // loading banner
                             ?<div >
@@ -182,7 +216,7 @@ export const ProductList = ({ }) => {
                                         <table>
                                         <thead></thead>
                                         <tbody>
-                                            {products.products.map((product) => (
+                                            {productsList.map((product) => (
                                                     <ProductItem product={product} key={product.id}/>
                                             ))}
                                             
