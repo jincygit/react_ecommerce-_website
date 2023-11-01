@@ -1,7 +1,7 @@
 {
     "products": [
         { 
-            "id": 1, 
+            "id": "1", 
             "title": "Liquid Lipstick",
             "price": 200,
             "rating": 3,
@@ -9,7 +9,7 @@
             "details": "It's so highly pigmented that you only need one swipe for opaque colour and the tip of the applicator is pointed so that you can get a really crisp lip line, no need for a pencil or lip brush."
         },
         { 
-            "id": 2, 
+            "id": "2", 
             "title": "Gel Eyeliner",
             "price": 100,
             "rating": 4,
@@ -17,7 +17,7 @@
             "details": "Gel eyeliner can be used to simply line your upper lash line and waterline, or it can be used to create a quick smokey eye. It can even be used to create sharp winged eyeliner with the help of an angled brush."
         },
         { 
-            "id": 3, 
+            "id": "3", 
             "title": "Compact Powder",
             "price": 300,
             "rating": 1,
@@ -25,7 +25,7 @@
             "details": "Compact powder is one of the most important makeup products to add that perfect touch up on the go. It helps you to get rid of excess oil and sweat on your face."
         },
         { 
-            "id": 4, 
+            "id": "4", 
             "title": "Eyeshadow",
             "price": 500,
             "rating": 2,
