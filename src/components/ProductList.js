@@ -23,40 +23,21 @@ export const ProductList = ({ }) => {
 
     const dispatch = useDispatch();
     const wholeState = useSelector((state) => state);
+    //get products
     let {products,cart} = useSelector((state) => state);
     //const productsList = products;
     const [productsList, setProductsList] = useState(products.products);
+    //get sorting status
     const [sortingStatus, setSortingStatus] = useState(false);
     console.log("wproduct state..",wholeState);
-
-    
-    //console.log("wproduct products..",products);
-    // const products = [];
-    // const cart = [];
-    //console.log("wproduct cart state..",cart);
+    //product loading status
     const [loading, setLoading] = useState(true);
 
-
-//   const [editStatus, setEditStatus] = useState(false);
-//   const [updatingStatus, setUpdatingStatus] = useState(false);
-//   const [deletingStatus, setDeletingStatus] = useState(false);
-
-//   const [productTitle, setProductTitle] = useState("");
-//   const [productImageUrl, setProductImageUrl] = useState("");
-//   const [productPrice, setProductPrice] = useState("");
-//   const [productDetails, setProductDetails] = useState("");
-
-
-  const [todoTitle, setTodoTitle] = useState("");
-  const [todoId, setTodoId] = useState("");
-  const [completedStatus, setCompletedStatus] = useState("");
-
-
+    //function for fetchProductList
     const fetchProductList = async () => {
         try {
             //get products from the API
             const response = await fetchProducts();
-            //console.log("url response ....",response);
             //check whether api response and set state
             if (response.success) {
                 dispatch(addProducts(response.data));
@@ -64,20 +45,19 @@ export const ProductList = ({ }) => {
             setLoading(false);
 
             //firebase code starts
-            //fetching all data without condition from firebase
-            const collectionRef = collection(db, 'products');
-            onSnapshot(collectionRef, (querySnapshot) => {
-                console.log("..products",typeof products);
-                const firebaseProducts = [];
-                querySnapshot.forEach((doc) => {
-                    console.log("addddd");
-                    let newdata = { id: doc.id, ...doc.data() };
-                    //adding firebase db data into existing api result data
-                    dispatch(addSingleProduct(newdata));
-                    //firebaseProducts.push({ id: doc.id, ...doc.data() });
+                //fetching all data without condition from firebase
+                const collectionRef = collection(db, 'products');
+                onSnapshot(collectionRef, (querySnapshot) => {
+                    console.log("..products",typeof products);
+                    const firebaseProducts = [];
+                    querySnapshot.forEach((doc) => {
+                        console.log("addddd");
+                        let newdata = { id: doc.id, ...doc.data() };
+                        //adding firebase db data into existing api result data
+                        dispatch(addSingleProduct(newdata));
+                        //firebaseProducts.push({ id: doc.id, ...doc.data() });
+                    });
                 });
-            });
-            
             //firebase code ends
             //setLoadingStatus(false);
         } catch (error) {
@@ -86,91 +66,29 @@ export const ProductList = ({ }) => {
         }
     };
 
+    //function for sort by price
     const handlePriceSorting = async (sortingStatus) => {
         if(sortingStatus){
+            //sorting added
             const sortedProducts = [...products.products]; 
             sortedProducts.sort((a, b) => a.price - b.price);
-            console.log("sort wproduct state..",sortedProducts);
-            //productsList
+            //set sorted productsList
             setProductsList(sortedProducts);
         }else{
+            //sorting removed
             setSortingStatus(false);
-            setProductsList(products.products);
-            
+            setProductsList(products.products);    
         }
     }
 
-    const handleEdit = async () => {
-        try {
-            //setLoadingStatus(false);
-        } catch (error) {
-            console.log("error ", error);
-        }
-    };
-
-    const handleAddToCart = async (productData) => {
-        try {
-            //console.log("test cart  ",cart, "type  ",typeof cart.cart);
-            let currentCart =cart.cart
-            //callback for finding whether product already exist or not in cart
-            function callbackFunctionToFindProduct(product) {
-                //console.log("PRODUCT....",product)
-                return product.id === productData.id;
-            }
-            //check product is already in cart or not, 
-            var productAlreadyInCart = currentCart.find(callbackFunctionToFindProduct);
-            console.log("find..",productAlreadyInCart);
-            if(!productAlreadyInCart){
-                //if not, initally qty as 1
-                productData.qty=1;
-                dispatch(addCart(productData));
-            }else{
-                //if exist then increase count
-                dispatch(changeCartCount(productData,"plus"));
-            }
-            //toast msg
-            toast.success("Product added to cart successfully", {
-                icon: '✅',
-                style: {
-                backgroundColor: 'green', 
-                color: 'white',
-                userSelect: 'none',
-                },
-                duration: 1000, // Duration in milliseconds 
-                position: 'top-right', // Toast position on the screen
-                // onClose: () => console.log('Toast is closed'), // Callback
-                onClose:(id) => {
-                toast.dismiss(id); // Close the toast when the icon is clicked
-                },
-            });
-            //setLoadingStatus(false);
-        } catch (error) {
-            console.log("error ", error);
-            //toast msg
-            toast.error(error, {
-                icon: '❌', // You can customize the icon
-                style: {
-                backgroundColor: 'red', // You can customize the style
-                color: 'white',
-                userSelect: 'none',
-                },
-                duration: 1000, // Duration in milliseconds 
-                position: 'top-right', // Toast position on the screen
-                // onClose: () => console.log('Toast is closed'), // Callback
-                onClose:(id) => {
-                toast.dismiss(id); // Close the toast when the icon is clicked
-                },
-            });
-            //setLoading(false); 
-        }
-    };
+    
     useEffect(() => {
         // Call the fetchProductList function for setting product list
         fetchProductList(); 
     }, []);       
   
 
-  return (<div>
+    return (<div>
             <div className={styles.home}>
                 <div className={styles.postsList}>
                     {/* banner section starts */}
@@ -180,6 +98,7 @@ export const ProductList = ({ }) => {
                         </div>   
                     {/* banner section ends */}
                     <div>
+                        {/* sorting button section starts */}
                         <button 
                         className={styles.viewDetailsBtn} 
                         onClick={()=>{setSortingStatus(true);handlePriceSorting(true)}}
@@ -192,6 +111,7 @@ export const ProductList = ({ }) => {
                                 <img src="https://www.veryicon.com/download/png/miscellaneous/kqt/close-116?s=512"/>
                             </button>
                         }
+                        {/* sorting button section ends */}
                        
                     </div>
                     <div>
@@ -232,7 +152,7 @@ export const ProductList = ({ }) => {
             </div>
         <Toaster />
         </div>
-  );
+    );
 };
 
 // prop validation

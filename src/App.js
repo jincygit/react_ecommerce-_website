@@ -30,9 +30,9 @@ export default function App() {
                   {/* wrap all elements inside router */}
                   <Navbar />
                   <Routes>
-                    <Route exact path='/' element={< Home />}></Route>
+                    {/* <Route exact path='/' element={< Home />}></Route> */}
                     <Route exact path='/create' element={< CreateProduct />}></Route>
-                    <Route exact path='/products' element={< ProductList />}></Route>
+                    <Route exact path='/' element={< ProductList />}></Route>
                     <Route exact path='/cart' element={< Cart />}></Route>
                     <Route exact path='/details/:productId' element={< ProductDetails />}></Route>
                     {/* <Route path="/create-post" element={<CreatePost />} />

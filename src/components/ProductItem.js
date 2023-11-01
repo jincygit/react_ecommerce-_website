@@ -8,16 +8,10 @@ import { Toaster,toast } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 
 export const ProductItem = ({product }) => {
-
     const dispatch = useDispatch();
     const wholeState = useSelector((state) => state);
     const {cart} = useSelector((state) => state);
-    //console.log("wproduct state..",wholeState);
-    // const products = [];
-    // const cart = [];
-    //console.log("wproduct cart state..",cart);
-    //const [loading, setLoading] = useState(true);
-
+    console.log("wproductee state..",wholeState);
 
     const [editStatus, setEditStatus] = useState(false);
     const [updatingStatus, setUpdatingStatus] = useState(false);
@@ -96,7 +90,7 @@ export const ProductItem = ({product }) => {
                 toast.dismiss(id); // Close the toast when the icon is clicked
                 },
             });
-            setUpdatingStatus(false)
+            setUpdatingStatus(false);
         } catch (error) {
             console.log("error ", error);
             //toast msg
@@ -114,6 +108,7 @@ export const ProductItem = ({product }) => {
                 toast.dismiss(id); // Close the toast when the icon is clicked
                 },
             });
+            setUpdatingStatus(false);
         }
     };
 
@@ -292,15 +287,19 @@ export const ProductItem = ({product }) => {
                                 
                                 />
                             </button>
-                            : <button 
+                        : <button 
                                 className={styles.actionicon} 
-                                onClick={() => {setUpdatingStatus(true);}}
+                                onClick={() => {
+                                    setUpdatingStatus(true);
+                                    setEditStatus(false);
+                                    handleEdit();
+                                }}
                                 >
                                 <img 
                                 className={styles.actioniconimage}
                                 src="https://www.pngall.com/wp-content/uploads/4/Update-Button-PNG-Free-Image.png"
                                 alt="update-pic" 
-                                onClick={() => {setEditStatus(false);handleEdit();}}
+                                
                                 />
                             </button>
                     
