@@ -37,7 +37,7 @@ export const cartReducer = (state = INITIAL_STATE, action) => {
                 const updatedProduct = action.payload;
                 let updatedList = [...state.cart];
                 // if(action.payload.qty===0){
-                  console.log("remove..",action.payload.qty);
+                  //console.log("remove..",action.payload.qty);
                   updatedList.splice(removeProductIndex, 1);
                 // }else{
                 //   console.log("nondelete..",action.payload.qty);
@@ -75,17 +75,17 @@ export const cartReducer = (state = INITIAL_STATE, action) => {
                 const updatedProduct = action.payload;
                 let updatedList = [...state.cart];
                 if(action.payload.qty===0){
-                  console.log("delete..",action.payload.qty,"  changeType  ",action.changeType);
+                  //console.log("delete..",action.payload.qty,"  changeType  ",action.changeType);
                   updatedList.splice(productIndex, 1);
                 }
                 else if(action.payload.qty===NaN){
                   currentTotalCartItems++;
                   //totalCartItemsIncrement = currentTotalCartItems;
-                  console.log("nondelete NaN..",action.payload.qty,"  changeType  ",action.changeType);
+                  //console.log("nondelete NaN..",action.payload.qty,"  changeType  ",action.changeType);
                   updatedProduct.qty = 1
                 }else{
                   
-                  console.log("nondelete..",action.payload.qty,"  changeType  ",action.changeType);
+                  //console.log("nondelete..",action.payload.qty,"  changeType  ",action.changeType);
                   updatedList[productIndex] = updatedProduct;
                 }
                 

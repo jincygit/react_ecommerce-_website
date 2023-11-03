@@ -4,8 +4,6 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import axios from 'axios';
 import styles from '../styles/home.module.css';
-import { fetchProducts } from '../api/index';
-import {addProducts} from "../redux/actions/productActions";
 import {changeCartCount,removeCart} from "../redux/actions/cartActions";
 import { Toaster,toast } from 'react-hot-toast';
 
@@ -14,24 +12,16 @@ export const Cart = ({ }) => {
 
     const dispatch = useDispatch();
     const {cart} = useSelector((state) => state);
-    //const {cart,cartCount} = cart;
-    //let products =[];
-    console.log("cart state..",cart);
+    // console.log("cart state..",cart);
     const [isDeleting, setIsDeleting] = useState(false);
-
-
-  const [editStatus, setEditStatus] = useState(false);
-  const [todoTitle, setTodoTitle] = useState("");
-  const [todoId, setTodoId] = useState("");
-  const [completedStatus, setCompletedStatus] = useState("");
-  const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
   
     //function for change cart count
     const changeCount = async (productData,type) => {
         try {
             console.log("qty.....",productData.qty);
             if((productData.qty===0)&&(type!=="plus")){
-                //dispatch(changeCartCount(productData,type));
+                //no dispatch is needed at this condition
             }else{
                 dispatch(changeCartCount(productData,type));
                 //toast msg
@@ -50,7 +40,6 @@ export const Cart = ({ }) => {
                     },
                 });
             }
-            //setLoadingStatus(false);
         } catch (error) {
             console.log("error ", error);
             //toast msg
@@ -110,8 +99,7 @@ export const Cart = ({ }) => {
             });
             setIsDeleting(false);
         }
-    };
-          
+    };   
 
   return (
     <div>

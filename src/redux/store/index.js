@@ -1,10 +1,9 @@
 import * as redux from "redux";
 import { combineReducers } from "redux";
-import { configureStore } from '@reduxjs/toolkit';
+//import { configureStore } from '@reduxjs/toolkit';
 import storage from 'redux-persist/lib/storage'
 // import { persistReducer } from 'redux-persist'
 import { persistStore, persistReducer } from "redux-persist";
-import { apiSlice } from '../persistent/apiSlice';
 import { productReducer } from '../reducers/productReducer';
 import { cartReducer } from '../reducers/cartReducer';
 
@@ -19,7 +18,6 @@ import { cartReducer } from '../reducers/cartReducer';
 const reducers = combineReducers({
     products:productReducer,
     cart :cartReducer,
-    //[apiSlice.reducerPath]: apiSlice.reducer,
 })
 
 

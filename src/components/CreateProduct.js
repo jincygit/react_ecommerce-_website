@@ -52,7 +52,7 @@ export const CreateProduct = () => {
                 const productsCollection = collection(db, 'products');
                 // 'product' should be an object containing the product data
                 const newProductRef = await addDoc(productsCollection, productData);
-                console.log('Product added with ID: ', newProductRef);
+                //console.log('Product added with ID: ', newProductRef);
                 //dispatch(addSingleProduct(productData));
                 setAddingTodo(false);
                 //success toast msg
@@ -72,7 +72,7 @@ export const CreateProduct = () => {
                 });
             } catch (error) {
                 setAddingTodo(false);
-                console.error('Error adding product: ', error);
+                //console.error('Error adding product: ', error);
 
                 //error toast msg
                 toast.error(error, {

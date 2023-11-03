@@ -7,15 +7,12 @@ import styles from '../styles/home.module.css';
 import { fetchProducts } from '../api/index';
 import {addProducts,addSingleProduct} from "../redux/actions/productActions";
 import {addCart,changeCartCount} from "../redux/actions/cartActions";
-// import {addProducts} from "../redux/persistent/addProducts";
-// import {addCart} from "../redux/persistent/CartSlice";
 import ProductItem from './ProductItem';
 import { Toaster,toast } from 'react-hot-toast';
 //get firebase instance
 import { firestore as db } from '../firebase';
-
 import { getFirestore, collection, getDocs, onSnapshot, addDoc, updateDoc, doc, deleteDoc, query, where } from 'firebase/firestore';
-import { calculateNewValue } from '@testing-library/user-event/dist/utils';
+//import { calculateNewValue } from '@testing-library/user-event/dist/utils';
 
 
 
@@ -29,7 +26,7 @@ export const ProductList = ({ }) => {
     const [productsList, setProductsList] = useState(products.products);
     //get sorting status
     const [sortingStatus, setSortingStatus] = useState(false);
-    console.log("wproduct state..",wholeState);
+    //console.log("wproduct state..",wholeState);
     //product loading status
     const [loading, setLoading] = useState(true);
 
@@ -37,26 +34,44 @@ export const ProductList = ({ }) => {
     const fetchProductList = async () => {
         try {
             //get products from the API
-            const response = await fetchProducts();
-            //check whether api response and set state
-            if (response.success) {
-                dispatch(addProducts(response.data));
+            const apiResponseData = await fetchProducts();
+            //check whether api apiResponseData and set state
+            if (apiResponseData.success) {
+                
+                dispatch(addProducts(apiResponseData.data));
             }
+            const dataFromApi = apiResponseData.data;
             setLoading(false);
+            
 
-            //firebase code starts
+            //firebase code for add firebase data to state starts
                 //fetching all data without condition from firebase
                 const collectionRef = collection(db, 'products');
                 onSnapshot(collectionRef, (querySnapshot) => {
-                    console.log("..products",typeof products);
                     const firebaseProducts = [];
                     querySnapshot.forEach((doc) => {
-                        console.log("addddd");
                         let newdata = { id: doc.id, ...doc.data() };
                         //adding firebase db data into existing api result data
                         dispatch(addSingleProduct(newdata));
-                        //firebaseProducts.push({ id: doc.id, ...doc.data() });
+                        firebaseProducts.push({ id: doc.id, ...doc.data() });
                     });
+                    console.log("firebasec data",firebaseProducts);
+                    //add api  products into firebase 
+                    dataFromApi.forEach((apiProduct) => {
+                        //check whether api product already exist in firebase db or not
+                        let productExistStatus = firebaseProducts.findIndex((m) => m.id === apiProduct.id);
+                        if (productExistStatus === -1) {
+                            //if not exist then add into firebase db
+                            try {
+                                const productsCollection = collection(db, 'products');
+                                const newProductRef = addDoc(productsCollection, apiProduct);
+                                dispatch(addSingleProduct(apiProduct));
+                            } catch (error) {
+                                console.error('Error adding product: ', error);
+                            }
+                        }
+                    });
+                    
                 });
             //firebase code ends
             //setLoadingStatus(false);

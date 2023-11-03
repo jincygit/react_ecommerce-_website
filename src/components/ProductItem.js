@@ -6,12 +6,16 @@ import {updateProducts,removeProduct} from "../redux/actions/productActions";
 import {addCart,changeCartCount} from "../redux/actions/cartActions";
 import { Toaster,toast } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
+//get firebase instance
+import { firestore as db } from '../firebase';
+import { getFirestore, collection, getDocs, onSnapshot, addDoc, updateDoc, doc, deleteDoc, query, where } from 'firebase/firestore';
+
 
 export const ProductItem = ({product }) => {
     const dispatch = useDispatch();
     const wholeState = useSelector((state) => state);
     const {cart} = useSelector((state) => state);
-    console.log("wproductee state..",wholeState);
+    //console.log("wproductee state..",wholeState);
 
     const [editStatus, setEditStatus] = useState(false);
     const [updatingStatus, setUpdatingStatus] = useState(false);
@@ -74,6 +78,22 @@ export const ProductItem = ({product }) => {
                 price:productPrice,
                 details:productDetails,
             };
+            //update in firebase
+            const docRef = doc(db, 'products', product.id);
+            console.log("docRef",docRef)
+            // updateDoc(docRef, { qty: products[index].qty})
+            updateDoc(docRef, { 
+                title: productTitle,
+                imageUrl: productImageUrl,
+                price: productPrice,
+                details: productDetails
+            })
+            .then(() => {
+                console.log("Document updated sucessfully");
+            })
+            .catch(error => {
+                console.log("error in firebase",error);
+            });
             dispatch(updateProducts(updatedValues));
             //toast msg
             toast.success("Product edited successfully", {
@@ -124,7 +144,7 @@ export const ProductItem = ({product }) => {
             }
             //check product is already in cart or not, 
             var productAlreadyInCart = currentCart.find(callbackFunctionToFindProduct);
-            console.log("find..",productAlreadyInCart);
+            //console.log("find..",productAlreadyInCart);
             if(!productAlreadyInCart){
                 //if not, initally qty as 1
                 productData.qty=1;
