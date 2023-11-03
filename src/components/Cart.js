@@ -12,7 +12,7 @@ export const Cart = ({ }) => {
 
     const dispatch = useDispatch();
     const {cart} = useSelector((state) => state);
-    // console.log("cart state..",cart);
+    console.log("cart state..",cart);
     const [isDeleting, setIsDeleting] = useState(false);
     const [loading, setLoading] = useState(false);
   

@@ -22,18 +22,20 @@ export const productReducer = (state = INITIAL_STATE, action) => {
     
     case UPDATE_PRODUCT:
         //getting Product index
+        console.log("Action payload..",action.payload);
         const productIndex = state.products.findIndex((m) => m.id === action.payload.id);
         if (productIndex !== -1) {        
             //if index exist then update
             const updatedProduct = action.payload;
             let updatedList = [...state.products];
-            updatedList[productIndex] = updatedProduct;         
+            updatedList[productIndex] = updatedProduct; 
+            console.log("Action updatedProduct..",updatedProduct)        
             return {
                 ...state,
                 products: updatedList,
             };
         }
-        break;
+        // break;
     case ADD_A_PRODUCT:
         const currentProducts = state.products;
         const productExistStatus = state.products.findIndex((m) => m.id === action.payload.id);

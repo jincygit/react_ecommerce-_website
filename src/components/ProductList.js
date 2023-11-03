@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from 'axios';
 import styles from '../styles/home.module.css';
 import { fetchProducts } from '../api/index';
-import {addProducts,addSingleProduct} from "../redux/actions/productActions";
+import {addProducts,addSingleProduct,removeProduct} from "../redux/actions/productActions";
 import {addCart,changeCartCount} from "../redux/actions/cartActions";
 import ProductItem from './ProductItem';
 import { Toaster,toast } from 'react-hot-toast';
@@ -13,7 +13,6 @@ import { Toaster,toast } from 'react-hot-toast';
 import { firestore as db } from '../firebase';
 import { getFirestore, collection, getDocs, onSnapshot, addDoc, updateDoc, doc, deleteDoc, query, where } from 'firebase/firestore';
 //import { calculateNewValue } from '@testing-library/user-event/dist/utils';
-
 
 
 export const ProductList = ({ }) => {
@@ -26,7 +25,7 @@ export const ProductList = ({ }) => {
     const [productsList, setProductsList] = useState(products.products);
     //get sorting status
     const [sortingStatus, setSortingStatus] = useState(false);
-    //console.log("wproduct state..",wholeState);
+    console.log("wproduct state..",wholeState);
     //product loading status
     const [loading, setLoading] = useState(true);
 
@@ -38,7 +37,7 @@ export const ProductList = ({ }) => {
             //check whether api apiResponseData and set state
             if (apiResponseData.success) {
                 
-                dispatch(addProducts(apiResponseData.data));
+                //dispatch(addProducts(apiResponseData.data));
             }
             const dataFromApi = apiResponseData.data;
             setLoading(false);
@@ -56,19 +55,20 @@ export const ProductList = ({ }) => {
                         firebaseProducts.push({ id: doc.id, ...doc.data() });
                     });
                     console.log("firebasec data",firebaseProducts);
+                    console.log("dataFromApi data",dataFromApi);
                     //add api  products into firebase 
                     dataFromApi.forEach((apiProduct) => {
                         //check whether api product already exist in firebase db or not
                         let productExistStatus = firebaseProducts.findIndex((m) => m.id === apiProduct.id);
                         if (productExistStatus === -1) {
                             //if not exist then add into firebase db
-                            try {
-                                const productsCollection = collection(db, 'products');
-                                const newProductRef = addDoc(productsCollection, apiProduct);
-                                dispatch(addSingleProduct(apiProduct));
-                            } catch (error) {
-                                console.error('Error adding product: ', error);
-                            }
+                            // try {
+                            //     const productsCollection = collection(db, 'products');
+                            //     const newProductRef = addDoc(productsCollection, apiProduct);
+                            //     dispatch(addSingleProduct(apiProduct));
+                            // } catch (error) {
+                            //     console.error('Error adding product: ', error);
+                            // }
                         }
                     });
                     
@@ -88,11 +88,63 @@ export const ProductList = ({ }) => {
             const sortedProducts = [...products.products]; 
             sortedProducts.sort((a, b) => a.price - b.price);
             //set sorted productsList
-            setProductsList(sortedProducts);
+            products.products = sortedProducts
         }else{
             //sorting removed
             setSortingStatus(false);
-            setProductsList(products.products);    
+            products.products = productsList
+        }
+    }
+
+    //function for product delete
+    const handleDelete = async (id) => {
+        try{
+            
+            //delete in firebase
+            const productRef = doc(db, 'products', id); 
+            // Update your local state or UI as needed.
+            dispatch(removeProduct(id));
+            try {
+                await deleteDoc(productRef);  
+                //toast msg
+                toast.success("Product deleted successfully", {
+                    icon: '✅',
+                    style: {
+                    backgroundColor: 'green', 
+                    color: 'white',
+                    userSelect: 'none',
+                    },
+                    duration: 1000, // Duration in milliseconds 
+                    position: 'top-right', // Toast position on the screen
+                    // onClose: () => console.log('Toast is closed'), // Callback
+                    onClose:(id) => {
+                    toast.dismiss(id); // Close the toast when the icon is clicked
+                    },
+                });   
+            } catch (error) {
+                console.error('Error deleting product:', error);
+                //toast msg
+                toast.error(error, {
+                    icon: '❌', // You can customize the icon
+                    style: {
+                    backgroundColor: 'red', // You can customize the style
+                    color: 'white',
+                    userSelect: 'none',
+                    },
+                    duration: 1000, // Duration in milliseconds 
+                    position: 'top-right', // Toast position on the screen
+                    // onClose: () => console.log('Toast is closed'), // Callback
+                    onClose:(id) => {
+                    toast.dismiss(id); // Close the toast when the icon is clicked
+                    },
+                });
+            }
+            //toast msg
+           
+            //setDeletingStatus(false);
+        } catch (error) {
+            console.log("error ", error);
+            
         }
     }
 
@@ -151,8 +203,10 @@ export const ProductList = ({ }) => {
                                         <table>
                                         <thead></thead>
                                         <tbody>
-                                            {productsList.map((product) => (
-                                                    <ProductItem product={product} key={product.id}/>
+                                            {products.products.map((product) => (
+                                                    <ProductItem product={product} 
+                                                        key={product.id}
+                                                        handleDelete ={handleDelete}/>
                                             ))}
                                             
                                         </tbody>

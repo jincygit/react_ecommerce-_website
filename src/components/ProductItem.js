@@ -11,7 +11,7 @@ import { firestore as db } from '../firebase';
 import { getFirestore, collection, getDocs, onSnapshot, addDoc, updateDoc, doc, deleteDoc, query, where } from 'firebase/firestore';
 
 
-export const ProductItem = ({product }) => {
+export const ProductItem = ({product,handleDelete }) => {
     const dispatch = useDispatch();
     const wholeState = useSelector((state) => state);
     const {cart} = useSelector((state) => state);
@@ -26,9 +26,19 @@ export const ProductItem = ({product }) => {
     const [productDetails, setProductDetails] = useState(product.details);
     
    //function for product delete
-    const handleDelete = async () => {
+    const handleDelete1 = async () => {
         try{
-            dispatch(removeProduct(product.id));
+            
+            //delete in firebase
+            const productRef = doc(db, 'products', product.id); 
+            try {
+                await deleteDoc(productRef);
+                console.log('Product deleted successfully');
+                // Update your local state or UI as needed.
+                dispatch(removeProduct(product.id));
+            } catch (error) {
+                console.error('Error deleting product:', error);
+            }
             //toast msg
             toast.success("Product deleted successfully", {
                 icon: '✅',
@@ -66,6 +76,14 @@ export const ProductItem = ({product }) => {
         }
     }
 
+    //function for product delete
+    const handleDeleteProduct = async () => {
+            handleDelete(product.id);
+            setDeletingStatus(false);   
+            setEditStatus(false); 
+            setUpdatingStatus(false);          
+    }
+    
     //function for product edit
     const handleEdit = async () => {
         try {
@@ -78,10 +96,8 @@ export const ProductItem = ({product }) => {
                 price:productPrice,
                 details:productDetails,
             };
-            //update in firebase
+            //update in firebase db
             const docRef = doc(db, 'products', product.id);
-            console.log("docRef",docRef)
-            // updateDoc(docRef, { qty: products[index].qty})
             updateDoc(docRef, { 
                 title: productTitle,
                 imageUrl: productImageUrl,
@@ -89,12 +105,12 @@ export const ProductItem = ({product }) => {
                 details: productDetails
             })
             .then(() => {
-                console.log("Document updated sucessfully");
+                //console.log("Document updated sucessfully");
+                dispatch(updateProducts(updatedValues));
             })
             .catch(error => {
                 console.log("error in firebase",error);
             });
-            dispatch(updateProducts(updatedValues));
             //toast msg
             toast.success("Product edited successfully", {
                 icon: '✅',
@@ -135,11 +151,9 @@ export const ProductItem = ({product }) => {
     //function for product cart count change
     const handleAddToCart = async (productData) => {
         try {
-            //console.log("test cart  ",cart, "type  ",typeof cart.cart);
             let currentCart =cart.cart
             //callback for finding whether product already exist or not in cart
             function callbackFunctionToFindProduct(product) {
-                //console.log("PRODUCT....",product)
                 return product.id === productData.id;
             }
             //check product is already in cart or not, 
@@ -195,7 +209,7 @@ export const ProductItem = ({product }) => {
             {!editStatus &&
                  <td>
                  <img className={styles.productimage}
-                     src={product.imageUrl}
+                     src={productImageUrl}
                      alt="post-pic"
                  />
              </td>
@@ -203,13 +217,13 @@ export const ProductItem = ({product }) => {
             {!editStatus &&
                 <td className={styles.titleTd}>
                     {/* show edit input only by clicking edit icon */} 
-                    <p>{product.title}</p> 
+                    <p>{productTitle}</p> 
                 </td> 
             }   
             {!editStatus &&
                 <td>
                     <span className={styles.completed}>
-                        {product.price}
+                        {productPrice}
                     </span>
                 </td>
             }
@@ -263,16 +277,18 @@ export const ProductItem = ({product }) => {
 
                 </td>
             }
-            <td>
-                <Link to={`/details/${product.id}`}>
-                    <button 
-                        className={styles.viewDetailsBtn} 
-                        // onClick={()=>handleAddToCart(product)}
-                        >
-                        View Details
-                    </button>
-                </Link>
-            </td>
+            {!editStatus &&
+                <td>
+                    <Link to={`/details/${product.id}`}>
+                        <button 
+                            className={styles.viewDetailsBtn} 
+                            // onClick={()=>handleAddToCart(product)}
+                            >
+                            View Details
+                        </button>
+                    </Link>
+                </td>
+            }
             {!editStatus &&
                 <td>
                     <button 
@@ -330,7 +346,7 @@ export const ProductItem = ({product }) => {
                 {!deletingStatus
                     ? <button 
                         className={styles.actionicon}
-                        onClick={() => {setDeletingStatus(true);handleDelete();}}
+                        onClick={() => {setDeletingStatus(true);handleDeleteProduct();}}
                         >
                         <img 
                         className={styles.actioniconimage}
@@ -350,6 +366,16 @@ export const ProductItem = ({product }) => {
                     </button>
                     }
             </td>
+            {editStatus &&
+                <td>
+                    <button 
+                        className={styles.viewDetailsBtn} 
+                        onClick={(e) => setEditStatus(false)}
+                        >
+                        Back
+                    </button>
+                </td>
+            }
             {/* <Toaster /> */}
         </tr>
     );

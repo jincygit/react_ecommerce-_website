@@ -2,11 +2,14 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import styles from '../styles/home.module.css';
 import { useParams } from 'react-router-dom';
+import { Toaster,toast } from 'react-hot-toast';
+import {addCart,changeCartCount} from "../redux/actions/cartActions";
 
 
 export const ProductDetails = () => {
     //getting productId
     const { productId } = useParams();
+    const dispatch = useDispatch();
     const wholeState = useSelector((state) => state);
     const {products,cart} = useSelector((state) => state);
     const productData = products.products.filter((item) => item.id === productId);
@@ -20,6 +23,50 @@ export const ProductDetails = () => {
     const stars = Array(rating).fill(null);
     //dummyFn
     const dummyFn = async () => {};
+    //function for product cart count change
+    const handleAddToCart = async (productData) => {
+        try {
+            //console.log("test cart  ",cart.cart, "type  ",typeof cart.cart);
+            //console.log("Productdatataa....",productData)
+            let currentCart =cart.cart
+            //console.log("PRODUCT....",productData)
+            dispatch(addCart(productData));
+            //toast msg
+            toast.success("Product added to cart successfully", {
+                icon: '✅',
+                style: {
+                backgroundColor: 'green', 
+                color: 'white',
+                userSelect: 'none',
+                },
+                duration: 1000, // Duration in milliseconds 
+                position: 'top-right', // Toast position on the screen
+                // onClose: () => console.log('Toast is closed'), // Callback
+                onClose:(id) => {
+                toast.dismiss(id); // Close the toast when the icon is clicked
+                },
+            });
+            //setLoadingStatus(false);
+        } catch (error) {
+            console.log("error ", error);
+            //toast msg
+            toast.error(error, {
+                icon: '❌', // You can customize the icon
+                style: {
+                backgroundColor: 'red', // You can customize the style
+                color: 'white',
+                userSelect: 'none',
+                },
+                duration: 1000, // Duration in milliseconds 
+                position: 'top-right', // Toast position on the screen
+                // onClose: () => console.log('Toast is closed'), // Callback
+                onClose:(id) => {
+                toast.dismiss(id); // Close the toast when the icon is clicked
+                },
+            });
+            //setLoading(false); 
+        }
+    };
   
 
 
@@ -82,6 +129,11 @@ export const ProductDetails = () => {
                           onChange={(e) => dummyFn()}
                           readOnly
                         />
+                        <button 
+                        className={styles.addToCartBtn} 
+                        onClick={()=>handleAddToCart(productData[0])}>
+                        Add to cart
+                    </button>
 
 
                       
