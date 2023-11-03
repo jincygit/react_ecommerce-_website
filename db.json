@@ -1,13 +1,6 @@
 {
     "products": [
-        { 
-            "id": "mSRlKXU8cq6UX9Meg2GS", 
-            "title": "Liquid Lipstick",
-            "price": 200,
-            "rating": 3,
-            "imageUrl": "https://rukminim2.flixcart.com/image/800/800/cms-rpd-images/3efbc52eccd349a3bc2f181a769e7cc9_17e333255fa_LSKFVDSD9FZHGZNZ_BannerMediaWidget_2.jpg.png?q=90",
-            "details": "It's so highly pigmented that you only need one swipe for opaque colour and the tip of the applicator is pointed so that you can get a really crisp lip line, no need for a pencil or lip brush."
-        },
+        
         { 
             "id": "cKMeuNDKvuA0C8IVuhpK", 
             "title": "Gel Eyeliner",
