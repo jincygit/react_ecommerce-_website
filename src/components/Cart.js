@@ -131,6 +131,10 @@ export const Cart = ({ }) => {
                         ?
                         // empty cart banner
                         <div >
+                            <button className={styles.addToCartBtn} 
+                                onClick={()=>handleClearCart()} >
+                                    Clear Cart
+                            </button>
                             <img className={styles.loadingBannerImg}
                             src="https://cdni.iconscout.com/illustration/premium/thumb/empty-cart-5521508-4610092.png"/>
                         </div>
