@@ -15,7 +15,7 @@ export const cartReducer = (state = INITIAL_STATE, action) => {
     //console.log("cart actionpayload...", action)
     switch (action.type) {
         case ADD_CART:
-            console.log("state action cart...", state);
+          console.log("cart action ADD ...", action.payload);
             const currentCart = state.cart;
             let totalCartItems = state.cartCount;
             currentCart.push( action.payload );    
@@ -23,7 +23,7 @@ export const cartReducer = (state = INITIAL_STATE, action) => {
             return {
               ...state,
               cart:currentCart,
-              cartCount:0
+              cartCount:totalCartItems
             }
         case REMOVE_CART:
             //getting Product index
@@ -53,7 +53,7 @@ export const cartReducer = (state = INITIAL_STATE, action) => {
             return state;
 
         case CHANGE_CART_COUNT:
-            //console.log("COUNT C ...", action);
+            console.log("cart action CHANGE ...", action.payload);
             //getting Product index
             const productIndex = state.cart.findIndex((m) => m.id === action.payload.id);
             if (productIndex !== -1) {
