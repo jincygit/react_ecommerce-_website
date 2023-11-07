@@ -23,7 +23,7 @@ export const cartReducer = (state = INITIAL_STATE, action) => {
             return {
               ...state,
               cart:currentCart,
-              cartCount:0
+              cartCount:1
             }
         case REMOVE_CART:
             //getting Product index
