@@ -55,7 +55,7 @@ const Navbar = () => {
                   className={styles.userDp}
                 />
               
-              <span>User</span>
+              <span>Products</span>
             </div>
           </Link>
         

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import axios from 'axios';
 import styles from '../styles/home.module.css';
-import {changeCartCount,removeCart} from "../redux/actions/cartActions";
+import {changeCartCount,removeCart,resetCart} from "../redux/actions/cartActions";
 import { Toaster,toast } from 'react-hot-toast';
 
 
@@ -99,7 +99,16 @@ export const Cart = ({ }) => {
             });
             setIsDeleting(false);
         }
-    };   
+    };  
+    
+    //function for reset cart
+    const handleClearCart = async () => {
+        try {   
+            dispatch(resetCart());       
+        } catch (error) {
+            console.log("error ", error);           
+        }
+    };
 
   return (
     <div>
@@ -128,6 +137,10 @@ export const Cart = ({ }) => {
                     
                         // product list
                         :<div className={styles.postWrapper}>
+                            <button className={styles.addToCartBtn} 
+                                onClick={()=>handleClearCart()} >
+                                    Clear Cart
+                            </button>
                             <div className={styles.postHeader}>
                                 <div className={styles.postAvatar}>
                                     <table>

@@ -1,7 +1,8 @@
 import {
     ADD_CART,
     REMOVE_CART,
-    CHANGE_CART_COUNT
+    CHANGE_CART_COUNT,
+    RESET_CART
 } from "../actions/cartActions";
 
 const INITIAL_STATE = {
@@ -14,6 +15,12 @@ const INITIAL_STATE = {
 export const cartReducer = (state = INITIAL_STATE, action) => {
     //console.log("cart actionpayload...", action)
     switch (action.type) {
+        case RESET_CART:
+            return {
+              ...state,
+              cart:[],
+              cartCount:0
+            }
         case ADD_CART:
           console.log("cart action ADD ...", action.payload);
             const currentCart = state.cart;
@@ -23,7 +30,7 @@ export const cartReducer = (state = INITIAL_STATE, action) => {
             return {
               ...state,
               cart:currentCart,
-              cartCount:1
+              cartCount:totalCartItems
             }
         case REMOVE_CART:
             //getting Product index
