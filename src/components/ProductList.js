@@ -25,7 +25,7 @@ export const ProductList = ({ }) => {
     const [productsList, setProductsList] = useState(products.products);
     //get sorting status
     const [sortingStatus, setSortingStatus] = useState(false);
-    console.log("wproduct state..",wholeState);
+    //console.log("wproduct state..",wholeState);
     //product loading status
     const [loading, setLoading] = useState(true);
 
