@@ -55,4 +55,4 @@ export const store = redux.createStore(
 
 export const persistor = persistStore(store);
 //to remove cart old data
-persistor.purge(['cart']);
+//persistor.purge(['cart']);

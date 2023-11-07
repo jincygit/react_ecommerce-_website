@@ -14,7 +14,7 @@ export const ProductDetails = () => {
     const {products,cart} = useSelector((state) => state);
     const productData = products.products.filter((item) => item.id === productId);
     
-    //rating
+    //setting rating stars based on data
     let rating = 0;
     if(productData.length !== 0) {
       //rating update
@@ -26,20 +26,18 @@ export const ProductDetails = () => {
     //function for product cart count change
     const handleAddToCart = async (productData) => {
         try {
+            //get current cart data
             let currentCart =cart.cart
-            //console.log("currentCart....",currentCart);
-            //console.log("productData....",productData);
+            //check whether the product alredy in cart or not
             let productAlreadyInCart = currentCart.findIndex((m) => m.id === productData.id);
             if (productAlreadyInCart==-1){
-                //if not, initally qty as 1
+                //if not, initally set qty as 1
                 productData.qty=1;
                 dispatch(addCart(productData));
             }else{
                 //if exist then increase count
                 dispatch(changeCartCount(productData,"plus"));
             }
-            //console.log("productExistStatus....",productAlreadyInCart)
-            //dispatch(addCart(productData));
             //toast msg
             toast.success("Product added to cart successfully", {
                 icon: '✅',

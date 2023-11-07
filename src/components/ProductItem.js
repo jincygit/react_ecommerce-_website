@@ -107,25 +107,41 @@ export const ProductItem = ({product,handleDelete }) => {
             .then(() => {
                 //console.log("Document updated sucessfully");
                 dispatch(updateProducts(updatedValues));
+                //toast msg
+                toast.success("Product edited successfully", {
+                    icon: '✅',
+                    style: {
+                    backgroundColor: 'green', 
+                    color: 'white',
+                    userSelect: 'none',
+                    },
+                    duration: 1000, // Duration in milliseconds 
+                    position: 'top-right', // Toast position on the screen
+                    // onClose: () => console.log('Toast is closed'), // Callback
+                    onClose:(id) => {
+                    toast.dismiss(id); // Close the toast when the icon is clicked
+                    },
+                });
             })
             .catch(error => {
                 console.log("error in firebase",error);
+                //toast msg
+                toast.error(error, {
+                    icon: '❌', // You can customize the icon
+                    style: {
+                    backgroundColor: 'red', // You can customize the style
+                    color: 'white',
+                    userSelect: 'none',
+                    },
+                    duration: 1000, // Duration in milliseconds 
+                    position: 'top-right', // Toast position on the screen
+                    // onClose: () => console.log('Toast is closed'), // Callback
+                    onClose:(id) => {
+                    toast.dismiss(id); // Close the toast when the icon is clicked
+                    },
+                });
             });
-            //toast msg
-            toast.success("Product edited successfully", {
-                icon: '✅',
-                style: {
-                backgroundColor: 'green', 
-                color: 'white',
-                userSelect: 'none',
-                },
-                duration: 1000, // Duration in milliseconds 
-                position: 'top-right', // Toast position on the screen
-                // onClose: () => console.log('Toast is closed'), // Callback
-                onClose:(id) => {
-                toast.dismiss(id); // Close the toast when the icon is clicked
-                },
-            });
+            
             setUpdatingStatus(false);
         } catch (error) {
             console.log("error ", error);
@@ -151,16 +167,11 @@ export const ProductItem = ({product,handleDelete }) => {
     //function for product cart count change
     const handleAddToCart = async (productData) => {
         try {
-            let currentCart =cart.cart
-            //callback for finding whether product already exist or not in cart
-            function callbackFunctionToFindProduct(product) {
-                return product.id === productData.id;
-            }
-            //check product is already in cart or not, 
-            var productAlreadyInCart = currentCart.find(callbackFunctionToFindProduct);
-            //console.log("find..",productAlreadyInCart);
-            if(!productAlreadyInCart){
-                //if not, initally qty as 1
+            let currentCart =cart.cart;         
+            //check whether the product alredy in cart or not
+            let productAlreadyInCart = currentCart.findIndex((m) => m.id === productData.id);
+            if (productAlreadyInCart==-1){
+                //if not, initally set qty as 1
                 productData.qty=1;
                 dispatch(addCart(productData));
             }else{
@@ -182,7 +193,6 @@ export const ProductItem = ({product,handleDelete }) => {
                 toast.dismiss(id); // Close the toast when the icon is clicked
                 },
             });
-            //setLoadingStatus(false);
         } catch (error) {
             console.log("error ", error);
             //toast msg
@@ -200,7 +210,6 @@ export const ProductItem = ({product,handleDelete }) => {
                 toast.dismiss(id); // Close the toast when the icon is clicked
                 },
             });
-            //setLoading(false); 
         }
     };
            

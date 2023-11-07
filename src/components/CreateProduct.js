@@ -31,12 +31,13 @@ export const CreateProduct = () => {
     };
 
     const createProductInFirebaseDb = async() => {
+        //validate all fields
         if((productTitle=="")||(productPrice=="")||(productImageUrl=="")||(productDetails=="")){
+          //set error msg if any field value missing
           setErrorMsgStatus(true);
-          console.log("error");
         }
         else{
-            console.log("noerror");
+            //create product if all data avaliable
             setErrorMsgStatus(false);
             setAddingTodo(true);
             //setting productData
@@ -52,15 +53,14 @@ export const CreateProduct = () => {
                 const productsCollection = collection(db, 'products');
                 // 'product' should be an object containing the product data
                 const newProductRef = await addDoc(productsCollection, productData);
-                //console.log('Product added with ID: ', newProductRef);
                 //dispatch(addSingleProduct(productData));
                 setAddingTodo(false);
                 //empty input field after product creation
-                // setProductTitle("");
-                // setProductImageUrl("");
-                // setProductPrice("");
-                // setProductDetails("");
-                // setRating(0);
+                setProductTitle("");
+                setProductImageUrl("");
+                setProductPrice("");
+                setProductDetails("");
+                //setRating(0);
                 //success toast msg
                 toast.success("Product added successfully", {
                   icon: '✅',
@@ -174,7 +174,7 @@ export const CreateProduct = () => {
                           disabled={addingTodo}
                         >
                           {/* adding button text changes on loading period */}
-                          {addingTodo ? 'Adding list...' : 'Add list'}
+                          {addingTodo ? 'Adding Product...' : 'Add Product'}
                         </button>
                       </div>
                     {/* Add button ends */}
