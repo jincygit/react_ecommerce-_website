@@ -26,11 +26,20 @@ export const ProductDetails = () => {
     //function for product cart count change
     const handleAddToCart = async (productData) => {
         try {
-            //console.log("test cart  ",cart.cart, "type  ",typeof cart.cart);
-            //console.log("Productdatataa....",productData)
             let currentCart =cart.cart
-            //console.log("PRODUCT....",productData)
-            dispatch(addCart(productData));
+            //console.log("currentCart....",currentCart);
+            //console.log("productData....",productData);
+            let productAlreadyInCart = currentCart.findIndex((m) => m.id === productData.id);
+            if (productAlreadyInCart==-1){
+                //if not, initally qty as 1
+                productData.qty=1;
+                dispatch(addCart(productData));
+            }else{
+                //if exist then increase count
+                dispatch(changeCartCount(productData,"plus"));
+            }
+            //console.log("productExistStatus....",productAlreadyInCart)
+            //dispatch(addCart(productData));
             //toast msg
             toast.success("Product added to cart successfully", {
                 icon: '✅',
