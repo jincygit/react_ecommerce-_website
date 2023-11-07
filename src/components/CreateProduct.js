@@ -55,6 +55,12 @@ export const CreateProduct = () => {
                 //console.log('Product added with ID: ', newProductRef);
                 //dispatch(addSingleProduct(productData));
                 setAddingTodo(false);
+                //empty input field after product creation
+                // setProductTitle("");
+                // setProductImageUrl("");
+                // setProductPrice("");
+                // setProductDetails("");
+                // setRating(0);
                 //success toast msg
                 toast.success("Product added successfully", {
                   icon: '✅',

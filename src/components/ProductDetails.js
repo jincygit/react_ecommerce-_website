@@ -145,7 +145,7 @@ export const ProductDetails = () => {
           
             
           </div>
-        
+          <Toaster />
         </div>
       )
   );
