@@ -21,7 +21,7 @@ export const Cart = ({ }) => {
         try {
             console.log("qty.....",productData.qty);
             if((productData.qty===0)&&(type!=="plus")){
-                //no dispatch is needed at this condition
+                //no dispatch is needed when qty decrease lessthan 0
             }else{
                 dispatch(changeCartCount(productData,type));
                 //toast msg
@@ -161,24 +161,27 @@ export const Cart = ({ }) => {
                                     <tbody>
                                         {cart.cart.map((cartItem) => (
                                             <tr key={cartItem.id}>
+                                                {/* image */}
                                                 <td>
                                                     <img className={styles.productimage}
                                                     src={cartItem.imageUrl}
                                                     alt="post-pic"
                                                     />
                                                 </td>
-                                                <td className={styles.titleTd}>
-                                                    {/* show edit input only by clicking edit icon */}                                    
+                                                {/* title */}
+                                                <td className={styles.titleTd}>                                     
                                                     <div className={styles.titletext}>
                                                     <p>{cartItem.title}</p>
                                                     </div>                                           
                                                 </td>
+                                                {/* price */}
                                                 <td>
                                                     
                                                     <span className={styles.completed}>
                                                         {cartItem.price}
                                                     </span>
                                                 </td>
+                                                {/* qty */}
                                                 <td className={styles.qtyTd}>
                                                     <img className={styles.plusicon}
                                                         src="https://cdn-icons-png.flaticon.com/512/1828/1828817.png" onClick={()=>changeCount(cartItem,"plus")}
@@ -191,6 +194,7 @@ export const Cart = ({ }) => {
                                                         onClick={()=>changeCount(cartItem,"minus")}
                                                     />
                                                 </td>
+                                                {/* total product price */}
                                                 <td>
                                                     <span className={styles.completed}>
                                                         {cartItem.price*cartItem.qty}

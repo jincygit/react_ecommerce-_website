@@ -78,10 +78,10 @@ export const ProductItem = ({product,handleDelete }) => {
 
     //function for product delete
     const handleDeleteProduct = async () => {
-            handleDelete(product.id);
-            setDeletingStatus(false);   
-            setEditStatus(false); 
-            setUpdatingStatus(false);          
+        handleDelete(product.id);
+        setDeletingStatus(false);   
+        setEditStatus(false); 
+        setUpdatingStatus(false);          
     }
     
     //function for product edit
@@ -215,6 +215,7 @@ export const ProductItem = ({product,handleDelete }) => {
            
     return (
         <tr >
+            {/* imageurl */}
             {!editStatus &&
                  <td>
                  <img className={styles.productimage}
@@ -223,12 +224,14 @@ export const ProductItem = ({product,handleDelete }) => {
                  />
              </td>
             }
+            {/* title */}
             {!editStatus &&
                 <td className={styles.titleTd}>
                     {/* show edit input only by clicking edit icon */} 
                     <p>{productTitle}</p> 
                 </td> 
-            }   
+            } 
+            {/* price   */}
             {!editStatus &&
                 <td>
                     <span className={styles.completed}>
@@ -236,7 +239,7 @@ export const ProductItem = ({product,handleDelete }) => {
                     </span>
                 </td>
             }
-            {/* if editStatus enabled */}
+            {/* if editStatus enabled show edit input field */}
             {editStatus &&
                 <td>
                     <table className={styles.editTable}>
@@ -286,6 +289,7 @@ export const ProductItem = ({product,handleDelete }) => {
 
                 </td>
             }
+            {/* viewdetail button */}
             {!editStatus &&
                 <td>
                     <Link to={`/details/${product.id}`}>
@@ -298,6 +302,7 @@ export const ProductItem = ({product,handleDelete }) => {
                     </Link>
                 </td>
             }
+            {/* add to cart button */}
             {!editStatus &&
                 <td>
                     <button 
@@ -307,6 +312,7 @@ export const ProductItem = ({product,handleDelete }) => {
                     </button>
                 </td>
             }
+            {/* edit or update button */}
             <td>
                     {/* show edit button and update button  based on editStatus */}
                     {!editStatus 
@@ -350,6 +356,7 @@ export const ProductItem = ({product,handleDelete }) => {
                     
                     } 
             </td>
+            {/* delete button */}
             <td>
                 {/* show delete button or deleting button  based on deletingTodo value */}
                 {!deletingStatus
@@ -375,6 +382,7 @@ export const ProductItem = ({product,handleDelete }) => {
                     </button>
                     }
             </td>
+            {/* back button */}
             {editStatus &&
                 <td>
                     <button 

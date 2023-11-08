@@ -5,8 +5,8 @@ import { Toaster,toast } from 'react-hot-toast';
 //get firebase instance
 import { firestore as db } from '../firebase';
 import { getFirestore, collection, getDocs, onSnapshot, addDoc, updateDoc, doc, deleteDoc, query, where } from 'firebase/firestore';
-
 import {addSingleProduct} from "../redux/actions/productActions";
+
 
 export const CreateProduct = () => {
     const dispatch = useDispatch();
@@ -17,7 +17,7 @@ export const CreateProduct = () => {
     const [loadingStatus, setLoadingStatus] = useState(true);
     //rating value
     const [rating, setRating] = useState(0);
-
+    //input fields state
     const [productTitle, setProductTitle] = useState("");
     const [productImageUrl, setProductImageUrl] = useState("");
     const [productPrice, setProductPrice] = useState("");

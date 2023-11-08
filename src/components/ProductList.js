@@ -35,8 +35,7 @@ export const ProductList = ({ }) => {
             //get products from the API
             const apiResponseData = await fetchProducts();
             //check whether api apiResponseData and set state
-            if (apiResponseData.success) {
-                
+            if (apiResponseData.success) {  
                 //dispatch(addProducts(apiResponseData.data));
             }
             const dataFromApi = apiResponseData.data;
@@ -96,7 +95,7 @@ export const ProductList = ({ }) => {
         }
     }
 
-    //function for product delete
+    //function for product delete from firebase
     const handleDelete = async (id) => {
         try{
             
@@ -139,12 +138,25 @@ export const ProductList = ({ }) => {
                     },
                 });
             }
-            //toast msg
            
             //setDeletingStatus(false);
         } catch (error) {
             console.log("error ", error);
-            
+            //toast msg
+            toast.error(error, {
+                icon: '❌', // You can customize the icon
+                style: {
+                backgroundColor: 'red', // You can customize the style
+                color: 'white',
+                userSelect: 'none',
+                },
+                duration: 1000, // Duration in milliseconds 
+                position: 'top-right', // Toast position on the screen
+                // onClose: () => console.log('Toast is closed'), // Callback
+                onClose:(id) => {
+                toast.dismiss(id); // Close the toast when the icon is clicked
+                },
+            });
         }
     }
 

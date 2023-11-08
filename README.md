@@ -12,7 +12,7 @@ react_ecommerce _website
 
 1. Clone the repo
    ```sh
-   https://github.com/jincygit/react_todo_list_app.git
+   https://github.com/jincygit/react_ecommerce-_website.git
    ```
 
 2. Install NPM packages
@@ -102,7 +102,7 @@ Here is the Technology Stack of this Application. which I have used to Built thi
             |-->ProductList.js
         |__>pages
             |-->Home.js
-        |__>styles
+        |__>redux
             |__>actions
                 |-->cartActions.js
                 |-->productActions.js
@@ -135,6 +135,6 @@ https://my-json-server.typicode.com/jincygit/react_ecommerce-_website/products
    http://localhost:3000/
 
 ### Hoisted url
-    https://todolist-cb903.web.app/  
+    https://react-ecommerce-app-e50bd.web.app/
 
     
